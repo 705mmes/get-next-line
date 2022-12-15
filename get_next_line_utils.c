@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sammeuss <sammeuss@student.42.fr>          +#+  +:+       +#+        */
+/*   By: smunio <smunio@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 19:14:15 by sammeuss          #+#    #+#             */
-/*   Updated: 2022/12/14 21:58:57 by sammeuss         ###   ########.fr       */
+/*   Updated: 2022/12/15 16:42:00 by smunio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,54 +24,38 @@ int	ft_strlen(char *s)
 	return (i);
 }
 
-int	ft_strlen_backslash_n(char *s)
+int	ft_strlen_backslash_n(char *s, int *read_size)
 {
 	int	i;
 
 	i = 0;
+	if (!s)
+		return (0);
 	while (s[i] && s[i] != '\n')
 		i++;
+	if (i == ft_strlen(s) && (*read_size) < BUFFERSIZE)
+		return (0);
 	return (i);
 }
 
-char	*ft_fill_save(char *save, char *buffer, int len_buff, char *line)
+char	*ft_fill_save(char *save)
 {
-	int	i;
-	int	x;
+	int		i;
+	int		x;
+	char	*new;
 
 	x = 0;
 	i = 0;
-	free(save);
-	save = malloc(sizeof(char) * (len_buff - ft_strlen(line)));
-	if (!save)
-		return (0);
-	while (buffer[i - 1] != '\n')
+	while (save[i - 1] != '\n')
 			i++;
-	while (buffer[x])
+	new = malloc(sizeof(char) * (ft_strlen(save) - i) + 1);
+	while (save[i])
 	{
-		save[x] = buffer[i];
+		new[x] = save[i];
 		i++;
 		x++;
 	}
-	return (save);
+	new[x] = 0;
+	free(save);
+	return (new);
 }
-
-// char	*check_read(char *buffer)
-// {
-// 	int		i;
-// 	char	*str;
-
-// 	i = 0;
-// 	if (!buffer)
-// 		return (0);
-// 	while (buffer[i] != '\0')
-// 		i++;
-// 	str = malloc(sizeof(char) * i + 1);
-// 	i = 0;
-// 	while (buffer[i] != '\0')
-// 	{
-// 		str[i] = buffer[i];
-// 		i++;
-// 	}
-// 	return (str);
-// }
