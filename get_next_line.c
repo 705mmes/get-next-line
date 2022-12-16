@@ -6,7 +6,7 @@
 /*   By: smunio <smunio@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 19:13:41 by sammeuss          #+#    #+#             */
-/*   Updated: 2022/12/15 17:04:51 by smunio           ###   ########.fr       */
+/*   Updated: 2022/12/16 16:26:36 by smunio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,20 +17,29 @@ char	*ft_strjoin(char *s1, char *s2, int *read_size)
 	char	*r;
 	int		i;
 	int		x;
+	int		diff;
 
+	diff = 0;
 	x = 0;
 	i = 0;
-	if (!s1)
-		s1 = "";
-	r = malloc(sizeof(char) * (ft_strlen(s1) + (*read_size)) + 1);
+	r = malloc(sizeof(char) * (ft_strlen(s1) + (*read_size) + 1));
 	if (!r)
 		return (NULL);
-	while (s1[i])
+	// if (ft_strlen(r) > (*read_size))
+	// {
+	// 	diff = ft_strlen(r) - (*read_size);
+	// 	free(r)
+	// 	r = malloc(sizeof(char) * (ft))
+	// }
+	if (s1)
 	{
-		r[i] = s1[i];
-		i++;
+		while (s1[i])
+		{
+			r[i] = s1[i];
+			i++;
+		}
 	}
-	while (s2[x])
+	while (x < (*read_size))
 	{
 		r[i] = s2[x];
 		i++;
@@ -40,36 +49,52 @@ char	*ft_strjoin(char *s1, char *s2, int *read_size)
 	return (r);
 }
 
-// char	*ft_read_until_backslash_n(char	*s, int fd, char *save, int *read_size)
-// {
-// 	int		u;
+char	*ft_read_until_backslash_n(char	*s, int fd, char *save, int *read_size)
+{
+	int		u;
 
-// 	u = 0;
-// 	*read_size = read(fd, s, BUFFERSIZE);
-// 	while (u <= (*read_size))
-// 	{
-// 		if (u == (*read_size))
-// 		{
-// 			save = ft_strjoin(save, s, read_size);
-// 			*read_size = read(fd, s, BUFFERSIZE);
-// 			(*read_size) += ft_strlen(s);
-// 			u = -1;
-// 		}
-// 		else if (s[u] == '\n')
-// 		{
-// 			save = ft_strjoin(save, s, read_size);
-// 			return (save);
-// 		}
-// 		u++;
-// 	}
-// 	return (save);
-// }
+	u = 0;
+	*read_size = read(fd, s, BUFFERSIZE);
+	if (*read_size == 0)
+		return (save);
+	while (u <= (*read_size))
+	{
+		if (u == (*read_size))
+		{
+			save = ft_strjoin(save, s, read_size);
+			*read_size = read(fd, s, BUFFERSIZE);
+			u = 0;
+		}
+		else if (s[u] == '\n')
+		{
+			save = ft_strjoin(save, s, read_size);
+			return (save);
+		}
+		u++;
+	}
+	return (save);
+}
 
+char	*ft_last_line(char	*line, char	*save, int	*read_size)
+{
+	line = malloc(sizeof(char) * ft_strlen(save) + 1);
+		if (!line)
+			return (0);
+		while (save[i])
+		{
+			line[i] = save[i];
+			return (line);
+			i++;
+		}
+		line[i + 1] = 0;
+}
 char	*ft_line(char *save, char *line, int *read_size)
 {
 	int	i;
 
 	i = 0;
+	if (*read_size == 0)
+		ft_last_line(line, save, &read_size);
 	line = malloc(sizeof(char) * ft_strlen_backslash_n(save, read_size) + 1);
 	if (!line)
 		return (0);

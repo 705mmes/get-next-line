@@ -6,7 +6,7 @@
 /*   By: smunio <smunio@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 19:14:15 by sammeuss          #+#    #+#             */
-/*   Updated: 2022/12/15 16:42:00 by smunio           ###   ########.fr       */
+/*   Updated: 2022/12/16 16:14:14 by smunio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,15 @@ char	*ft_fill_save(char *save)
 
 	x = 0;
 	i = 0;
-	while (save[i - 1] != '\n')
+	while (save[i])
+	{
+		if (save[i] == '\n')
+		{
 			i++;
+			break ;
+		}
+		i++;
+	}
 	new = malloc(sizeof(char) * (ft_strlen(save) - i) + 1);
 	while (save[i])
 	{
