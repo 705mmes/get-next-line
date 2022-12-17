@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smunio <smunio@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sammeuss <sammeuss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 19:14:15 by sammeuss          #+#    #+#             */
-/*   Updated: 2022/12/16 16:14:14 by smunio           ###   ########.fr       */
+/*   Updated: 2022/12/17 23:38:05 by sammeuss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,17 +24,19 @@ int	ft_strlen(char *s)
 	return (i);
 }
 
-int	ft_strlen_backslash_n(char *s, int *read_size)
+int	ft_strlen_backslash_n(char *s, int *read_size, int choice)
 {
 	int	i;
 
 	i = 0;
+	(void)read_size;
 	if (!s)
 		return (0);
 	while (s[i] && s[i] != '\n')
 		i++;
-	if (i == ft_strlen(s) && (*read_size) < BUFFERSIZE)
-		return (0);
+	if (choice == 1)
+		if (i == ft_strlen(s))
+			return (0);
 	return (i);
 }
 
