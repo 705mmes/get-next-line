@@ -6,7 +6,7 @@
 /*   By: sammeuss <sammeuss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 19:14:15 by sammeuss          #+#    #+#             */
-/*   Updated: 2022/12/17 23:38:05 by sammeuss         ###   ########.fr       */
+/*   Updated: 2022/12/19 16:03:24 by sammeuss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,15 @@ int	ft_strlen_backslash_n(char *s, int *read_size, int choice)
 	(void)read_size;
 	if (!s)
 		return (0);
-	while (s[i] && s[i] != '\n')
+	while (s[i])
+	{
+		if (s[i] == '\n')
+		{
+			i++;
+			return (i);
+		}
 		i++;
+	}
 	if (choice == 1)
 		if (i == ft_strlen(s))
 			return (0);
@@ -46,6 +53,7 @@ char	*ft_fill_save(char *save)
 	int		x;
 	char	*new;
 
+	new = NULL;
 	x = 0;
 	i = 0;
 	while (save[i])
@@ -57,6 +65,8 @@ char	*ft_fill_save(char *save)
 		}
 		i++;
 	}
+	// if (save[x] == '\n' && ft_strlen(save) == 1)
+	// 		i = 0;
 	new = malloc(sizeof(char) * (ft_strlen(save) - i) + 1);
 	while (save[i])
 	{

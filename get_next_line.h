@@ -6,15 +6,15 @@
 /*   By: sammeuss <sammeuss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 19:14:20 by sammeuss          #+#    #+#             */
-/*   Updated: 2022/12/17 23:38:17 by sammeuss         ###   ########.fr       */
+/*   Updated: 2022/12/19 15:28:32 by sammeuss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 
-# ifndef BUFFERSIZE
-#  define BUFFERSIZE 9
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 3
 # endif
 
 # include <stdlib.h>
@@ -23,7 +23,7 @@
 # include <fcntl.h>
 
 char	*get_next_line(int fd);
-char	*ft_strjoin(char *s1, char *s2, int *read_size);
+char	*ft_strjoin(char *s1, char *s2, int *read_size, int i);
 char	*ft_line(char *buffer, char *line, int *read_size);
 char	*ft_read_until_backslash_n(char	*s, int fd, char *save, int *len_buff);
 int		ft_strlen(char *s);
