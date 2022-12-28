@@ -6,11 +6,22 @@
 /*   By: sammeuss <sammeuss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 19:13:41 by sammeuss          #+#    #+#             */
-/*   Updated: 2022/12/19 15:42:42 by sammeuss         ###   ########.fr       */
+/*   Updated: 2022/12/26 14:18:06 by sammeuss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
+char	*free_item(char **s)
+{
+	if (*s)
+	{
+		free(*s);
+		*s = 0;
+		return (*s);
+	}
+	return (NULL);
+}
 
 char	*ft_strjoin(char *s1, char *s2, int *read_size, int i)
 {
@@ -18,7 +29,8 @@ char	*ft_strjoin(char *s1, char *s2, int *read_size, int i)
 	int		x;
 
 	x = 0;
-	r = NULL;
+	if (!s1 && !s2)
+		return (NULL);
 	r = malloc(sizeof(char) * (ft_strlen(s1) + (*read_size) + 1));
 	if (!r)
 		return (NULL);
@@ -36,7 +48,7 @@ char	*ft_strjoin(char *s1, char *s2, int *read_size, int i)
 		i++;
 		x++;
 	}
-	r[i] = 0;
+	r[i] = '\0';
 	return (r);
 }
 
@@ -56,9 +68,11 @@ char	*ft_read_until_backslash_n(char	*s, int fd, char *save, int *read_size)
 		{
 			save = ft_strjoin(save, s, read_size, 0);
 			*read_size = read(fd, s, BUFFER_SIZE);
+			if (*read_size == 0)
+				return (save);
 			u = 0;
 		}
-		else if (s[u] == '\n')
+		if (s[u] == '\n')
 		{
 			save = ft_strjoin(save, s, read_size, 0);
 			return (save);
@@ -107,15 +121,15 @@ char	*get_next_line(int fd)
 	if (ft_strlen_backslash_n(save, &read_size, 1) > 0)
 	{
 		line = ft_line(save, line, &read_size);
-		save = ft_fill_save(save);
+		save = ft_fill_save(save, &read_size);
 		return (line);
 	}
 	save = ft_read_until_backslash_n(buffer, fd, save, &read_size);
 	line = ft_line(save, line, &read_size);
-	save = ft_fill_save(save);
+	save = ft_fill_save(save, &read_size);
 	if (!save)
-		free(save);
-	if (read_size == 0 && !save)
-		return (NULL);
+		free_item(&save);
+	if (read_size == 0 && !save && !line)
+		free_item(&line);
 	return (line);
 }

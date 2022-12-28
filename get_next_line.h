@@ -6,7 +6,7 @@
 /*   By: sammeuss <sammeuss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 19:14:20 by sammeuss          #+#    #+#             */
-/*   Updated: 2022/12/19 15:28:32 by sammeuss         ###   ########.fr       */
+/*   Updated: 2022/12/26 14:18:21 by sammeuss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ char	*ft_line(char *buffer, char *line, int *read_size);
 char	*ft_read_until_backslash_n(char	*s, int fd, char *save, int *len_buff);
 int		ft_strlen(char *s);
 int		ft_strlen_backslash_n(char *s, int *read_size, int choice);
-char	*ft_fill_save(char *save);
+char	*ft_fill_save(char *save, int *read_size);
+char	*free_item(char **s);
 
 #endif

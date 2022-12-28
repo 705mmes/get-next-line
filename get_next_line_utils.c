@@ -6,7 +6,7 @@
 /*   By: sammeuss <sammeuss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 19:14:15 by sammeuss          #+#    #+#             */
-/*   Updated: 2022/12/19 16:03:24 by sammeuss         ###   ########.fr       */
+/*   Updated: 2022/12/28 15:46:11 by sammeuss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	ft_strlen_backslash_n(char *s, int *read_size, int choice)
 	return (i);
 }
 
-char	*ft_fill_save(char *save)
+char	*ft_fill_save(char *save, int *read_size)
 {
 	int		i;
 	int		x;
@@ -56,6 +56,8 @@ char	*ft_fill_save(char *save)
 	new = NULL;
 	x = 0;
 	i = 0;
+	if (!save)
+		return (NULL);
 	while (save[i])
 	{
 		if (save[i] == '\n')
@@ -65,14 +67,19 @@ char	*ft_fill_save(char *save)
 		}
 		i++;
 	}
-	// if (save[x] == '\n' && ft_strlen(save) == 1)
-	// 		i = 0;
+	if (save[i - 1] != '\n' && *read_size == 0)
+		return (NULL);
 	new = malloc(sizeof(char) * (ft_strlen(save) - i) + 1);
-	while (save[i])
+	if (save[i - 1] == '\n')
+		while (save[i])
+			new[x++] = save[i++];
+	else
 	{
-		new[x] = save[i];
-		i++;
-		x++;
+		while (save[x])
+		{
+			new[x] = save[x];
+			x++;
+		}
 	}
 	new[x] = 0;
 	free(save);
