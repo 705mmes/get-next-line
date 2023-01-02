@@ -6,7 +6,7 @@
 /*   By: sammeuss <sammeuss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 19:13:41 by sammeuss          #+#    #+#             */
-/*   Updated: 2022/12/26 14:18:06 by sammeuss         ###   ########.fr       */
+/*   Updated: 2022/12/31 19:13:29 by sammeuss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ char	*ft_strjoin(char *s1, char *s2, int *read_size, int i)
 	int		x;
 
 	x = 0;
+	r = NULL;
 	if (!s1 && !s2)
 		return (NULL);
 	r = malloc(sizeof(char) * (ft_strlen(s1) + (*read_size) + 1));
@@ -42,6 +43,7 @@ char	*ft_strjoin(char *s1, char *s2, int *read_size, int i)
 			i++;
 		}
 	}
+	free(s1);
 	while (x < (*read_size))
 	{
 		r[i] = s2[x];
@@ -62,6 +64,8 @@ char	*ft_read_until_backslash_n(char	*s, int fd, char *save, int *read_size)
 		return (NULL);
 	if (*read_size == 0)
 		return (save);
+	if (*read_size == -1)
+		return (free_item(&save));
 	while (u <= (*read_size))
 	{
 		if (u == (*read_size))
@@ -70,6 +74,8 @@ char	*ft_read_until_backslash_n(char	*s, int fd, char *save, int *read_size)
 			*read_size = read(fd, s, BUFFER_SIZE);
 			if (*read_size == 0)
 				return (save);
+			if (*read_size == -1)
+				return (free_item(&save));
 			u = 0;
 		}
 		if (s[u] == '\n')
@@ -127,9 +133,14 @@ char	*get_next_line(int fd)
 	save = ft_read_until_backslash_n(buffer, fd, save, &read_size);
 	line = ft_line(save, line, &read_size);
 	save = ft_fill_save(save, &read_size);
+	if (!line)
+		return (NULL);
 	if (!save)
 		free_item(&save);
 	if (read_size == 0 && !save && !line)
-		free_item(&line);
-	return (line);
+		return (NULL);
+	if (line[0] == 0)
+		return (free_item(&line));
+	else
+		return (line);
 }

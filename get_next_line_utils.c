@@ -6,7 +6,7 @@
 /*   By: sammeuss <sammeuss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 19:14:15 by sammeuss          #+#    #+#             */
-/*   Updated: 2022/12/28 15:46:11 by sammeuss         ###   ########.fr       */
+/*   Updated: 2022/12/31 19:11:00 by sammeuss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,27 +61,16 @@ char	*ft_fill_save(char *save, int *read_size)
 	while (save[i])
 	{
 		if (save[i] == '\n')
-		{
-			i++;
 			break ;
-		}
 		i++;
 	}
+	i++;
 	if (save[i - 1] != '\n' && *read_size == 0)
-		return (NULL);
+		return (free_item(&save));
 	new = malloc(sizeof(char) * (ft_strlen(save) - i) + 1);
-	if (save[i - 1] == '\n')
-		while (save[i])
+	while (save[i])
 			new[x++] = save[i++];
-	else
-	{
-		while (save[x])
-		{
-			new[x] = save[x];
-			x++;
-		}
-	}
 	new[x] = 0;
-	free(save);
+	free_item(&save);
 	return (new);
 }
