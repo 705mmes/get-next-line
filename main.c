@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sammeuss <sammeuss@student.42.fr>          +#+  +:+       +#+        */
+/*   By: smunio <smunio@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/18 19:00:28 by sammeuss          #+#    #+#             */
-/*   Updated: 2022/12/18 19:00:54 by sammeuss         ###   ########.fr       */
+/*   Updated: 2023/01/02 15:49:04 by smunio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	main(void)
 	int		fd;
 	char	*buffer;
 
-	fd = open("test.txt", O_RDONLY);
+	fd = open("read_error.txt", O_RDONLY);
 	buffer = get_next_line(fd);
 	printf("%s", buffer);
 	buffer = get_next_line(fd);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sammeuss <sammeuss@student.42.fr>          +#+  +:+       +#+        */
+/*   By: smunio <smunio@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 19:14:20 by sammeuss          #+#    #+#             */
-/*   Updated: 2022/12/26 14:18:21 by sammeuss         ###   ########.fr       */
+/*   Updated: 2023/01/02 17:41:20 by smunio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,5 +30,6 @@ int		ft_strlen(char *s);
 int		ft_strlen_backslash_n(char *s, int *read_size, int choice);
 char	*ft_fill_save(char *save, int *read_size);
 char	*free_item(char **s);
+char	*double_free(char *s1, char **s2);
 
 #endif
