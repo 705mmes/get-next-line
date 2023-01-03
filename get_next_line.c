@@ -6,7 +6,7 @@
 /*   By: smunio <smunio@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 19:13:41 by sammeuss          #+#    #+#             */
-/*   Updated: 2023/01/02 18:58:22 by smunio           ###   ########.fr       */
+/*   Updated: 2023/01/03 16:37:58 by smunio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,9 @@ char	*ft_strjoin(char *s1, char *s2, int *read_size, int i)
 		return (free_item(&s1));
 	if (s1)
 	{
-		while (s1[i])
-		{
+		i--;
+		while (s1[++i])
 			r[i] = s1[i];
-			i++;
-		}
 	}
 	free(s1);
 	while (x < (*read_size))
@@ -60,12 +58,6 @@ char	*ft_read_until_backslash_n(char	*s, int fd, char *save, int *read_size)
 
 	u = 0;
 	*read_size = read(fd, s, BUFFER_SIZE);
-	// if (!save && *read_size == 0)
-	// 	return (NULL);
-	// if (*read_size == 0)
-	// 	return (save);
-	// if (*read_size == -1)
-	// 	return (free_item(&save));
 	while (u <= (*read_size))
 	{
 		if (u == (*read_size))
@@ -95,9 +87,9 @@ char	*ft_line(char *save, char *line, int *read_size)
 	i = 0;
 	if (!save)
 		return (free_item(&save));
-	line = malloc(sizeof(char) * (ft_strlen_backslash_n(save, read_size, 0) + 1));
+	line = malloc(sizeof(char) * (len_backslash_n(save, read_size, 0) + 1));
 	if (!line)
-		return (free_item(&line));
+		return (free_item(&save));
 	while (save[i])
 	{
 		line[i] = save[i];
@@ -108,11 +100,6 @@ char	*ft_line(char *save, char *line, int *read_size)
 		}
 		i++;
 	}
-	// if (line[0] == '\0')
-	// {
-	// 	free(save);
-	// 	return (free_item(&line));
-	// }
 	line[i] = '\0';
 	return (line);
 }
@@ -129,21 +116,33 @@ char	*get_next_line(int fd)
 	line = NULL;
 	if (fd < 0 || BUFFER_SIZE < 1 || read(fd, buffer, 0) < 0)
 		return (free_item(&save));
-	if (ft_strlen_backslash_n(save, &read_size, 1) > 0)
+	if (len_backslash_n(save, &read_size, 1) > 0)
 	{
 		line = ft_line(save, line, &read_size);
-		save = ft_fill_save(save, &read_size);
+		if (!line)
+		{
+			save = 0;
+			return (0);
+		}
+		if (ft_fill_save(&save, &read_size) == -1)
+			return (free_item(&line));
 		return (line);
 	}
 	save = ft_read_until_backslash_n(buffer, fd, save, &read_size);
 	line = ft_line(save, line, &read_size);
-	save = ft_fill_save(save, &read_size);
-	if (!save)
-		free_item(&save);
+	if (!line)
+	{
+		save = 0;
+		return (0);
+	}
+	// gnl_v2(save, line, &read_size);
+	if (ft_fill_save(&save, &read_size) == -1)
+		return (free_item(&line));
 	if ((read_size == 0 && !save && !line) || !line)
-		return (NULL);
+		return (double_free(line, &save));
 	if (line[0] == 0)
 		return (free_item(&line));
-	else
-		return (line);
+	if (!save)
+		free_item(&save);
+	return (line);
 }

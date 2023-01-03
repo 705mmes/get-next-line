@@ -6,7 +6,7 @@
 /*   By: smunio <smunio@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 19:14:15 by sammeuss          #+#    #+#             */
-/*   Updated: 2023/01/02 18:44:58 by smunio           ###   ########.fr       */
+/*   Updated: 2023/01/03 16:37:21 by smunio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	ft_strlen(char *s)
 	return (i);
 }
 
-int	ft_strlen_backslash_n(char *s, int *read_size, int choice)
+int	len_backslash_n(char *s, int *read_size, int choice)
 {
 	int	i;
 
@@ -53,32 +53,49 @@ int	ft_strlen_backslash_n(char *s, int *read_size, int choice)
 	return (i);
 }
 
-char	*ft_fill_save(char *save, int *read_size)
+int	ft_fill_save(char **save, int *read_size)
 {
 	int		i;
 	int		x;
 	char	*new;
 
-	new = NULL;
 	x = 0;
-	i = 0;
-	if (!save)
-		return (free_item(&save));
-	while (save[i])
-	{
-		if (save[i] == '\n')
+	i = -1;
+	if (!(*save))
+		return (0);
+	while ((*save)[++i])
+		if ((*save)[i] == '\n')
 			break ;
-		i++;
-	}
 	i++;
-	if (save[i - 1] != '\n' && *read_size == 0)
-		return (free_item(&save));
-	new = malloc(sizeof(char) * (ft_strlen(save) - i) + 1);
+	if ((*save)[i - 1] != '\n' && *read_size == 0)
+	{
+		free_item(save);
+		return (0);
+	}
+	new = malloc(sizeof(char) * (ft_strlen(*save) - i) + 1);
 	if (!new)
-		return (double_free(save, &new));
-	while (save[i])
-			new[x++] = save[i++];
+	{
+		double_free(*save, &new);
+		*save = 0;
+		return (-1);
+	}
+	while ((*save)[i])
+			new[x++] = (*save)[i++];
 	new[x] = 0;
-	free_item(&save);
-	return (new);
+	free_item(save);
+	*save = new;
+	return (0);
 }
+
+// char	*gnl_v2(char *save, char *line, int *read_size)
+// {
+// 	if (ft_fill_save(&save, read_size) == -1)
+// 		return (free_item(&line));
+// 	if ((read_size == 0 && !save && !line) || !line)
+// 		return (double_free(line, &save));
+// 	if (line[0] == 0)
+// 		return (free_item(&line));
+// 	if (!save)
+// 		free_item(&save);
+// 	return (NULL);
+// }
